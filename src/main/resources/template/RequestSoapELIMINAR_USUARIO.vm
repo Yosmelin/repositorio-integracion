@@ -1,0 +1,12 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:elim="http://EliminarUsuarioServices.servicios.mercurio.servisoft.com.co/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <elim:EliminarUsuario>
+         <arg0>
+            <contraseñaS>$!exchange.properties.IdUsuarioS</contraseñaS>
+            <ID_USRIO>$!exchange.properties.IdUsuario</ID_USRIO>
+            <id_UsuarioS>$!exchange.properties.ContrasenaS</id_UsuarioS>
+         </arg0>
+      </elim:EliminarUsuario>
+   </soapenv:Body>
+</soapenv:Envelope>

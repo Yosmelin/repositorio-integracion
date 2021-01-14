@@ -3,10 +3,10 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>co.gov.jep.integracion</groupId>
-  <artifactId>cambiar-contrasenia</artifactId>
+  <artifactId>eliminar-usuario</artifactId>
   <version>1.0.0-SNAPSHOT</version>
-  <name>Fabric8 :: Quickstarts :: Spring-Boot :: Camel XML - cambiar-contrasenia</name>
-  <description>cambiar-contrasenia</description>
+  <name>Fabric8 :: Quickstarts :: Spring-Boot :: Camel XML - eliminar-usuario</name>
+  <description>eliminar-usuario</description>
   <properties>
     <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -35,6 +35,23 @@
       <version>0.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.8.6</version>
+    </dependency>
+    <dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-velocity</artifactId>
+	</dependency>
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-http4</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-servlet</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
@@ -45,39 +62,7 @@
     </dependency>
     <dependency>
       <groupId>org.apache.camel</groupId>
-      <artifactId>camel-script</artifactId>
-      <version>2.21.0.fuse-750033-redhat-00001</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.camel</groupId>
       <artifactId>camel-jsonpath</artifactId>
-      <version>2.21.0.fuse-750033-redhat-00001</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-velocity</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-http4</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-jackson</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.google.code.gson</groupId>
-      <artifactId>gson</artifactId>
-      <version>2.8.6</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-netty4-http</artifactId>
-      <version>2.21.0.fuse-750033-redhat-00001</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-cxf</artifactId>
       <version>2.21.0.fuse-750033-redhat-00001</version>
     </dependency>
     <dependency>

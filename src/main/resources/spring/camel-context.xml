@@ -2,52 +2,52 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="        http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd        http://camel.apache.org/schema/spring       https://camel.apache.org/schema/spring/camel-spring.xsd">
     <bean
-        class="co.gov.jep.integracion.usuario.process.ResponseCambiarContraseniaProcessor" id="responseCambiarContraseniaProcessor"/>
+        class="co.gov.jep.integracion.usuario.process.ResponseEliminarUsuarioProcessor"
+        id="responseEliminarUsuarioProcessor" scope="singleton"/>
     <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
-        <restConfiguration bindingMode="json" component="netty-http"
+        <restConfiguration bindingMode="auto" component="netty-http"
             contextPath="/rs" port="7001"/>
-        <rest id="rest-api-cambiar-contrasenia" path="/api">
-            <put consumes="application/json" id="cambiar-contrasenia"
+        <rest id="rest-api-eliminar-usuario" path="/api">
+            <delete consumes="application/json" id="eliminar-usuario"
                 produces="application/json" uri="/usuario/v1.0">
-                <to uri="direct:cambiar-contrasenia-route"/>
-            </put>
+                <to uri="direct:eliminar-usuario-route"/>
+            </delete>
         </rest>
-        <route id="cambiar-contrasenia-route">
-            <from id="_from-cambiar-contrasenia-route" uri="direct:cambiar-contrasenia-route"/>
-            <log id="_log-inicio-ruta-cambiar-contrasenia" message=":::Inicio Ruta Cambiar Contrasenia:::"/>
-            <log id="_log-body-cambiar-contrasenia" message="Cuerpo entrada ---> ${body}"/>
-            <setProperty id="_PropertyIdUsuarios" propertyName="IdUsuarios">
-                <jsonpath id="_psonpathropertyIdUsuarios">$.IdUsuarios</jsonpath>
+        <route id="eliminar-usuario-route">
+            <from id="_from-eliminar-usuario-route" uri="direct:eliminar-usuario-route"/>
+            <log id="_log-inicio-ruta-eliminar-usuario" message=":::Inicio Ruta Eliminar Usuario:::"/>
+            <log id="_log-body-eliminar-usuario" message="Cuerpo entrada ---> ${body}"/>
+            <setProperty id="_propertyIdUsuarioS" propertyName="IdUsuarioS">
+                <jsonpath id="_jsonpathpropertyIdUsuarioS">$.IdUsuarioS</jsonpath>
             </setProperty>
-            <setProperty id="_PropertyContrasenas" propertyName="Contrasenas">
-                <jsonpath id="_psonpathropertyContrasenas">$.Contrasenas</jsonpath>
+            <setProperty id="_propertyIdUsuario" propertyName="IdUsuario">
+                <jsonpath id="_jsonpathpropertyIdUsuario">$.IdUsuario</jsonpath>
             </setProperty>
-            <setProperty id="_PropertyIdUsuario" propertyName="IdUsuario">
-                <jsonpath id="_psonpathropertyIdUsuario">$.IdUsuario</jsonpath>
+            <setProperty id="_propertyContrasenaS" propertyName="ContrasenaS">
+                <jsonpath id="_jsonpathpropertyContrasenaS">$.ContrasenaS</jsonpath>
             </setProperty>
-            <setProperty id="_PropertyContrasenaNueva" propertyName="ContrasenaNueva">
-                <jsonpath id="_psonpathropertyContrasenaNueva">$.ContrasenaNueva</jsonpath>
-            </setProperty>
-            <to id="_velocitySoapCambiarContrasenia" uri="velocity:template/RequestSoapCAMBIAR_CONTRASENIA.vm"/>
-            <log id="_log-body-cambiar-contrasenia-in-soap" message="Cuerpo entrada soap ---> ${body}"/>
-            <removeHeaders id="_removeHeaderscu" pattern="*"/>
-            <setHeader headerName="Content-Type" id="_setHeaderContentTypeCU">
+            <to id="_velocitySoapEliminarUsuario" uri="velocity:template/RequestSoapELIMINAR_USUARIO.vm"/>
+            <log id="_log-body-eliminar-usuario-in-soap" message="Cuerpo entrada soap ---> ${body}"/>
+            <removeHeaders id="_removeHeadersEU" pattern="*"/>
+            <setHeader headerName="Content-Type" id="_setHeaderContentTypeEU">
                 <constant>text/xml;charset=UTF-8</constant>
             </setHeader>
-            <setHeader headerName="Accept" id="_setHeaderAcceptCU">
+            <setHeader headerName="CamelHttpMethod" id="_setHeaderCamelHttpMethodEU">
+                <constant>DELETE</constant>
+            </setHeader>
+            <setHeader headerName="Accept" id="_setHeaderAcceptEU">
                 <constant>text/xml;charset=UTF-8</constant>
             </setHeader>
-            <setHeader headerName="SOAPAction" id="_setHeaderSOAPActionCU">
-                <constant>"CambiarContrasenia"</constant>
+            <setHeader headerName="SOAPAction" id="_setHeaderSOAPActionEU">
+                <constant>"EliminarUsuario"</constant>
             </setHeader>
-            <setHeader headerName="CamelHttpMethod" id="_setHeaderCamelHttpMethodCU">
-                <constant>POST</constant>
-            </setHeader>
-            <to id="_toHttpAU" uri="http4://localhost:8088/mercurio/CambiarContrasenaServices?throwExceptionOnFailure=false"/>
+            <to id="_toHttpEU" uri="http4://localhost:8088/mockEliminarUsuarioServicesPortBinding?throwExceptionOnFailure=false">
+                <description>http://localhost:8088/mockEliminarUsuarioServicesPortBinding</description>
+            </to>
             <setProperty id="_propertyDescripcionTransaccion" propertyName="descripcionTransaccion">
                 <xpath resultType="String">//*[local-name() = 'descripcionTransaccion']/text()</xpath>
             </setProperty>
-            <process id="_process-response-cambiar-contrasenia" ref="responseCambiarContraseniaProcessor"/>
+            <process id="_process-response-eliminar-cliente" ref="responseEliminarUsuarioProcessor"/>
         </route>
     </camelContext>
 </beans>
