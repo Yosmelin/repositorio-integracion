@@ -1,0 +1,21 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cre="http://CrearUsuarioServices.servicios.mercurio.servisoft.com.co/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <cre:CrearUsuario>
+          <arg0>
+            <id_UsuarioS>$!exchange.properties.IdUsuarioS</id_UsuarioS>
+            <contraseñaS>$!exchange.properties.ContraseniaS</contraseñaS>
+            <ID_PRFIL>$!exchange.properties.IdPerfil</ID_PRFIL>
+            <ID_USRIO>$!exchange.properties.IdUsrio</ID_USRIO>
+            <NMBRE_USRIO>$!exchange.properties.NmbreUsrio</NMBRE_USRIO>
+            <CNTRSNNA>$!exchange.properties.Cntrsnna</CNTRSNNA>
+            <CODEMAIL>$!exchange.properties.Codemail</CODEMAIL>
+            <CODIDENTIFICACION>$!exchange.properties.Codidentificacion</CODIDENTIFICACION>
+            <FEC_CADUCIDAD_USRIO>$!exchange.properties.FecCaducidadUsrio</FEC_CADUCIDAD_USRIO>
+            <IDDEPENDENCIA>$!exchange.properties.IdDependencia</IDDEPENDENCIA>
+            <IDCARGO>$!exchange.properties.IdCargo</IDCARGO>
+            <DESCLAVE_FIRMA>$!exchange.properties.DesclaveFirma</DESCLAVE_FIRMA>
+         </arg0>
+      </cre:CrearUsuario>
+   </soapenv:Body>
+</soapenv:Envelope>
