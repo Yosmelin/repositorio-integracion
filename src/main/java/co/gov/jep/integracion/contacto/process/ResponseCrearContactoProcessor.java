@@ -6,7 +6,11 @@ import org.springframework.http.MediaType;
 
 import com.google.gson.Gson;
 
-import co.gov.jep.entidades.comun.Status;
+import co.gov.jep.integracion.contacto.model.Status;
+
+
+
+
 
 
 

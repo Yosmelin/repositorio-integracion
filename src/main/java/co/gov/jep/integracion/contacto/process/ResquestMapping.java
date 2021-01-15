@@ -3,9 +3,10 @@ package co.gov.jep.integracion.contacto.process;
 import java.util.ArrayList;
 import java.util.List;
 
-import co.gov.jep.entidades.contacto.Contacto;
-import co.gov.jep.integracion.contacto.model.Contact;
-import co.gov.jep.integracion.contacto.model.MainAddress;
+
+import co.gov.jep.integracion.contacto.backend.Contact;
+import co.gov.jep.integracion.contacto.backend.MainAddress;
+import co.gov.jep.integracion.contacto.model.Contacto;
 
 public class ResquestMapping {
 	

@@ -16,7 +16,7 @@
 	</properties>
 	<dependencyManagement>
 		<dependencies>
-			<dependency>
+ 		<dependency>
 				<groupId>org.jboss.redhat-fuse</groupId>
 				<artifactId>fuse-springboot-bom</artifactId>
 				<version>7.5.0.fuse-750029-redhat-00002</version>
@@ -30,11 +30,7 @@
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-http4</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>co.gov.jep.integracion</groupId>
-			<artifactId>componentes-comunes</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+		
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>

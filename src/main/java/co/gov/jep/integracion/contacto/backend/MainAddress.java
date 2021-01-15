@@ -1,5 +1,5 @@
 
-package co.gov.jep.integracion.contacto.model;
+package co.gov.jep.integracion.contacto.backend;
 
 import java.util.HashMap;
 import java.util.Map;
