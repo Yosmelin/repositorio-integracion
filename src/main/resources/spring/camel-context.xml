@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="        http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd        http://camel.apache.org/schema/spring       https://camel.apache.org/schema/spring/camel-spring.xsd">
+    <bean class="co.gov.jep.integracion.contacto.process.ResponseGenerarTokenProcessor" id="responseGenerarTokenProcessor"/>
+    <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
+        <restConfiguration bindingMode="auto" component="netty-http"
+            contextPath="/rs" port="7001"/>
+        <rest id="rest-api-generar-token" path="/api">
+            <post consumes="application/json" id="generar-token"
+                produces="application/json" uri="/contacto/token/v1.0">
+                <to uri="direct:generar-token-route"/>
+            </post>
+        </rest>
+        <route id="generar-token-route">
+            <from id="_from-generar-token-route" uri="direct:generar-token-route"/>
+            <log id="_log-inicio-ruta-generar-token" message=":::Inicio Ruta Generar Token:::"/>
+            <log id="_log-body-generar-token" message="Cuerpo entrada ---> ${body}"/>
+            <setProperty id="_propertyUsuario" propertyName="Usuario">
+                <jsonpath id="_pson_property_propertyUsuario">$.Usuario</jsonpath>
+            </setProperty>
+            <setProperty id="_propertyContrasena" propertyName="Contrasena">
+                <jsonpath id="_pson_property_propertyContrasena">$.Contrasena</jsonpath>
+            </setProperty>
+            <to id="_velocitySoapGenerarToken" uri="velocity:template/RequestSoapGenerarToken.vm"/>
+            <removeHeader headerName="*" id="_removeHeadersgt"/>
+            <setHeader headerName="Content-Type" id="_setHeaderContentTypeCU">
+                <constant>text/xml;charset=UTF-8</constant>
+            </setHeader>
+            <setHeader headerName="Accept" id="_setHeaderAcceptCU">
+                <constant>text/xml;charset=UTF-8</constant>
+            </setHeader>
+            <setHeader headerName="SOAPAction" id="_setHeaderSOAPActionGT">
+                <constant>"GenerarToken"</constant>
+            </setHeader>
+            <setHeader headerName="CamelHttpMethod" id="_setHeaderCamelHttpMethodGT">
+                <constant>POST</constant>
+            </setHeader>
+            <to id="_toHttpGT" uri="http://site/api/login"/>
+            <setProperty id="_propertyDescripcionTransaccion" propertyName="descripcionTransaccion">
+                <xpath resultType="String">//*[local-name() = 'descripcionTransaccion']/text()</xpath>
+            </setProperty>
+            <process id="_process-response-generar-token" ref="responseGenerarTokenProcessor"/>
+        </route>
+    </camelContext>
+</beans>

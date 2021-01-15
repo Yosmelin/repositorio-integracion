@@ -1,0 +1,4 @@
+{
+   "User":"$!exchange.properties.Usuario",
+   "Password":"$!exchange.properties.Contrasena"
+}
