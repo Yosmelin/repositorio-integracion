@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation=" http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd        http://camel.apache.org/schema/spring       https://camel.apache.org/schema/spring/camel-spring.xsd">
+    <bean class="co.gov.jep.integracion.usuario.process.ResponseCambiarContraseniaProcessor" id="responseCambiarContraseniaProcessor"/>
+    <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
+        <restConfiguration bindingMode="json" component="netty-http"
+            contextPath="/rs" port="7001"/>
+        <rest id="rest-api-cambiar-contrasenia" path="/api">
+            <put consumes="application/json" id="cambiar-contrasenia"
+                produces="application/json" uri="/usuario/v1.0">
+                <to uri="direct:cambiar-contrasenia-route"/>
+            </put>
+        </rest>
+        <route id="cambiar-contrasenia-route">
+            <from id="_from-cambiar-contrasenia-route" uri="direct:cambiar-contrasenia-route"/>
+            <log id="_log-inicio-ruta-cambiar-contrasenia" message=":::Inicio Ruta Cambiar Contrasenia:::"/>
+            <log id="_log-body-cambiar-contrasenia" message="Cuerpo entrada ---> ${body}"/>
+            <setProperty id="_PropertyIdUsuarios" propertyName="IdUsuarios">
+                <jsonpath id="_psonpathropertyIdUsuarios">$.IdUsuarios</jsonpath>
+            </setProperty>
+            <setProperty id="_PropertyContrasenas" propertyName="Contrasenas">
+                <jsonpath id="_psonpathropertyContrasenas">$.Contrasenas</jsonpath>
+            </setProperty>
+            <setProperty id="_PropertyIdUsuario" propertyName="IdUsuario">
+                <jsonpath id="_psonpathropertyIdUsuario">$.IdUsuario</jsonpath>
+            </setProperty>
+            <setProperty id="_PropertyContrasenaNueva" propertyName="ContrasenaNueva">
+                <jsonpath id="_psonpathropertyContrasenaNueva">$.ContrasenaNueva</jsonpath>
+            </setProperty>
+            <to id="_velocitySoapCambiarContrasenia" uri="velocity:template/RequestSoapCAMBIAR_CONTRASENIA.vm"/>
+            <log id="_log-body-cambiar-contrasenia-in-soap" message="Cuerpo entrada soap ---> ${body}"/>
+            <removeHeaders id="_removeHeaderscu" pattern="*"/>
+            <setHeader headerName="Content-Type" id="_setHeaderContentTypeCU">
+                <constant>text/xml;charset=UTF-8</constant>
+            </setHeader>
+            <setHeader headerName="Accept" id="_setHeaderAcceptCU">
+                <constant>text/xml;charset=UTF-8</constant>
+            </setHeader>
+            <setHeader headerName="SOAPAction" id="_setHeaderSOAPActionCU">
+                <constant>"CambiarContrasenia"</constant>
+            </setHeader>
+            <setHeader headerName="CamelHttpMethod" id="_setHeaderCamelHttpMethodCU">
+                <constant>POST</constant>
+            </setHeader>
+            <to id="_toHttpAU" uri="http4://localhost:8088/mercurio/CambiarContrasenaServices?throwExceptionOnFailure=false"/>
+            <setProperty id="_propertyDescripcionTransaccion" propertyName="descripcionTransaccion">
+                <xpath resultType="String">//*[local-name() = 'descripcionTransaccion']/text()</xpath>
+            </setProperty>
+            <setProperty id="_propertyDescripcionTransaccion" propertyName="IdUsuario">
+                <xpath resultType="String">//*[local-name() = 'idUsuario']/text()</xpath>
+            </setProperty>
+            <process id="_process-response-cambiar-contrasenia" ref="responseCambiarContraseniaProcessor"/>
+        </route>
+    </camelContext>
+</beans>
