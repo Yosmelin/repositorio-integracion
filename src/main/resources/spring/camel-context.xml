@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="        http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd        http://camel.apache.org/schema/spring       https://camel.apache.org/schema/spring/camel-spring.xsd">
+    <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
+        <route id="crear-contacto-route">
+            <from id="_from-crear-contacto-route" uri="direct:crear-contacto-route"/>
+            <log id="_log-inicio-ruta-crear-contacto" message=":::Inicio Ruta Crear Contacto:::"/>
+            <log id="_log-body-crear-contacto" message="Cuerpo entrada ---> ${body}"/>
+            <setProperty id="_propertyTipoDeDocumento" propertyName="TipoDeDocumento">
+                <jsonpath id="_psonpathropertyTipoDeDocumento">$.TipoDeDocumento</jsonpath>
+            </setProperty>
+            <setProperty id="_property" propertyName="NumeroDeDocumento">
+                <jsonpath id="__psonpathroperty">$.NumeroDeDocumento</jsonpath>
+            </setProperty>
+            <setProperty id="_propertyPrimerNombre" propertyName="PrimerNombre">
+                <jsonpath id="_psonpathropertyPrimerNombre">$.PrimeNombre</jsonpath>
+            </setProperty>
+            <setProperty id="_propertySegundoNombre" propertyName="SegundoNombre">
+                <jsonpath id="_psonpathropertySegundoNombre">$.SegundoNombre</jsonpath>
+            </setProperty>
+            <setProperty id="_propertyPrimerApellido" propertyName="PrimerApellido">
+                <jsonpath id="_psonpathropertyPrimerApellido">$.PrimerApellido</jsonpath>
+            </setProperty>
+            <setProperty id="_propertySegundoApellido" propertyName="SegundoApellido">
+                <jsonpath id="_psonpathropertySegundoApellido">$.SegundoApellido</jsonpath>
+            </setProperty>
+            <setProperty id="_propertyFechaDeNacimiento" propertyName="FechaDeNacimiento">
+                <jsonpath id="__psonpathropertyFechaDeNacimiento">$.FechaDeNacimiento</jsonpath>
+            </setProperty>
+            <setProperty id="_propertyEdad" propertyName="Edad">
+                <jsonpath id="__psonpathropertyEdad">$.Edad</jsonpath>
+            </setProperty>
+            <setProperty id="_propertyGenero" propertyName="Genero">
+                <jsonpath id="__psonpathropertyGenero">$.Genero</jsonpath>
+            </setProperty>
+            <setProperty id="_propertyEstadoCivil" propertyName="EstadoCivil">
+                <jsonpath id="__psonpathropertyEstadoCivil">$.EstadoCivil</jsonpath>
+            </setProperty>
+            <setProperty id="_propertyOrientacionSexual" propertyName="OrientacionSexual ">
+                <jsonpath id="__psonpathropertyOrientacionSexual">$.OrientacionSexual</jsonpath>
+            </setProperty>
+            <setProperty id="_propertyEtareo" propertyName="Etareo">
+                <jsonpath id="__psonpathropertyEtareo">$.Etareo</jsonpath>
+            </setProperty>
+            <setProperty id="_propertyDiscapacidad" propertyName="Discapacidad">
+                <jsonpath id="__psonpathropertyDiscapacidad">$.Discapacidad</jsonpath>
+            </setProperty>
+            <setProperty id="_propertyGrupoEtnico" propertyName="GrupoEtnico">
+                <jsonpath id="__psonpathropertyGrupoEtnico">$.GrupoEtnico</jsonpath>
+            </setProperty>
+            <setProperty id="_propertyIdentidadDeGenero" propertyName="IdentidadDeGenero">
+                <jsonpath id="__psonpathropertyIdentidadDeGenero">$.IdentidadDeGenero</jsonpath>
+            </setProperty>
+            <setProperty id="_propertyIDLegaliPersona" propertyName="IDLegaliPersona">
+                <jsonpath id="__psonpathropertyIDLegaliPersona">$.IDLegaliPersona</jsonpath>
+            </setProperty>
+            <to id="_velocitySoapCrearContacto" uri="velocity:template/RequestSoapCREAR_CONTACTO.vm"/>
+            <log id="_log-body-crear-contacto-in-soap" message="Cuerpo entrada soap ---> ${body}"/>
+            <setHeader headerName="CamelHttpMethod" id="_setHeaderCamelHttpMethodCU">
+                <constant>POST</constant>
+            </setHeader>
+            <to id="_toHttpAU" uri="https4://site/api/contacts?throwExceptionOnFailure=false"/>
+            <setProperty id="_propertyDescripcionTransaccion" propertyName="descripcionTransaccion">
+                <xpath resultType="String">//*[local-name() = 'descripcionTransaccion']/text()</xpath>
+            </setProperty>
+        </route>
+    </camelContext>
+</beans>
