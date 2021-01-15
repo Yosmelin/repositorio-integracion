@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="        http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd        http://camel.apache.org/schema/spring       https://camel.apache.org/schema/spring/camel-spring.xsd">
-    <bean
-        class="co.gov.jep.integracion.usuario.process.ResponseCambiarContraseniaProcessor" id="responseCambiarContraseniaProcessor"/>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation=" http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd        http://camel.apache.org/schema/spring       https://camel.apache.org/schema/spring/camel-spring.xsd">
+    <bean class="co.gov.jep.integracion.usuario.process.ResponseCambiarContraseniaProcessor" id="responseCambiarContraseniaProcessor"/>
     <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
         <restConfiguration bindingMode="json" component="netty-http"
             contextPath="/rs" port="7001"/>
@@ -46,6 +44,9 @@
             <to id="_toHttpAU" uri="http4://localhost:8088/mercurio/CambiarContrasenaServices?throwExceptionOnFailure=false"/>
             <setProperty id="_propertyDescripcionTransaccion" propertyName="descripcionTransaccion">
                 <xpath resultType="String">//*[local-name() = 'descripcionTransaccion']/text()</xpath>
+            </setProperty>
+            <setProperty id="_propertyDescripcionTransaccion" propertyName="IdUsuario">
+                <xpath resultType="String">//*[local-name() = 'idUsuario']/text()</xpath>
             </setProperty>
             <process id="_process-response-cambiar-contrasenia" ref="responseCambiarContraseniaProcessor"/>
         </route>

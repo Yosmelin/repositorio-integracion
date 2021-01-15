@@ -6,12 +6,8 @@ import org.springframework.http.MediaType;
 
 import com.google.gson.Gson;
 
-import co.gov.jep.entidades.comun.Status;
-
-
-import com.google.gson.Gson;
-
-import co.gov.jep.entidades.comun.Status;
+import co.gov.jep.integracion.usuario.model.CambiarContraseniaResponse;
+import co.gov.jep.integracion.usuario.model.Status;
 
 public class ResponseCambiarContraseniaProcessor implements Processor{
 
@@ -19,11 +15,22 @@ public class ResponseCambiarContraseniaProcessor implements Processor{
 		
 		  Gson gson = new Gson();
 	     
-
-		Status response = new Status();
-		response.setStatusDesc( (String)exchange.getProperty("descripcionTransaccion"));
-		response.setStatusCode("M0001");
-		 String jsonString = gson.toJson(response);
+		  CambiarContraseniaResponse cambiarContraseniaResponse = new CambiarContraseniaResponse();
+		  
+		  
+		  
+		Status status = new Status();
+		  status.setStatusDesc( (String)exchange.getProperty("descripcionTransaccion"));
+		  status.setStatusCode("M0001");
+		  cambiarContraseniaResponse.setStatus(status);
+		  cambiarContraseniaResponse.setIdUsuario( (String)exchange.getProperty("idUsuario"));
+		  
+		 String jsonString = gson.toJson(cambiarContraseniaResponse);
+		 
+		 
+		 
+		 
+		 
 		
 		exchange.getOut().setHeader(Exchange.HTTP_RESPONSE_CODE, 400);	
 		exchange.getOut().setBody(jsonString);
