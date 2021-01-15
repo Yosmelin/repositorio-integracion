@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="        http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd        http://camel.apache.org/schema/spring       https://camel.apache.org/schema/spring/camel-spring.xsd">
+    <bean
+        class="co.gov.jep.integracion.contacto.process.ResponseConsultarContactoProcessor" id="responseConsultarContactoProcessor"/>
+    <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
+        <restConfiguration bindingMode="auto" component="netty-http"
+            contextPath="/rs" port="7001"/>
+        <rest id="rest-api-consultar-contacto" path="/api">
+            <get id="consultar-contacto" produces="application/json" uri="/contacto/v1.0">
+                <to uri="direct:consultar-contacto-route"/>
+            </get>
+        </rest>
+        <route id="consultar-contacto-route">
+            <from id="_from-consultar-contacto-route" uri="direct:consultar-contacto-route"/>
+            <log id="_log-inicio-ruta-consultar-contacto" message=":::Inicio Ruta Consultar Contacto:::"/>
+            <log id="_log-body-consultar-contacto" message="Cuerpo entrada ---> ${body}"/>
+            <setProperty id="_propertyTipoDocumento" propertyName="TipoDocumento">
+                <simple>${header.TipoDocumento}</simple>
+            </setProperty>
+            <setProperty id="_PropertyNumeroDocumento" propertyName="NumeroDocumento">
+                <simple>${header.NumeroDocumento}</simple>
+            </setProperty>
+            <log id="_logNumTipDoc" message="::Numero y Tipo de Documento:: ${header.TipoDocumento} &amp; ${header.NumeroDocumento}"/>
+            <log id="_logURLServ" message="http4://site/api/contacts/${property.TipoDocumento}/${property.NumeroDocumento}"/>
+            <setHeader headerName="CamelHttpMethod" id="_setHeaderCamelHttpMethodCC">
+                <constant>GET</constant>
+            </setHeader>
+            <!--             <to id="_toHttpCC" uri="http4://site/api/contacts/${property.TipoDocumento}/${property.NumeroDocumento}"/> -->
+            <setProperty id="_propertyDescripcionTransaccion" propertyName="descripcionTransaccion">
+                <xpath resultType="String">//*[local-name() = 'descripcionTransaccion']/text()</xpath>
+            </setProperty>
+            <process id="_process-response-consultar-contacto" ref="responseConsultarContactoProcessor"/>
+        </route>
+    </camelContext>
+</beans>
