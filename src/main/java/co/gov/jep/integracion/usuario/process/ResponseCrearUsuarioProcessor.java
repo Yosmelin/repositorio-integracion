@@ -6,7 +6,9 @@ import org.springframework.http.MediaType;
 
 import com.google.gson.Gson;
 
-import co.gov.jep.entidades.comun.Status;
+import co.gov.jep.integracion.contacto.model.CrearUsuarioResponse;
+import co.gov.jep.integracion.contacto.model.Status;
+
 
 
 
@@ -15,13 +17,17 @@ public class ResponseCrearUsuarioProcessor implements Processor{
 	public void process(Exchange exchange) throws Exception {
 		
 		  Gson gson = new Gson();
+		  
+		  CrearUsuarioResponse  crearUsuarioResponse = new CrearUsuarioResponse ();
 	     
 
-		Status response = new Status();
-		response.setStatusDesc( (String)exchange.getProperty("descripcionTransaccion"));
-
-		response.setStatusCode("M0001");
-		 String jsonString = gson.toJson(response);
+		  Status status = new Status();
+		  status.setStatusDesc( (String)exchange.getProperty("descripcionTransaccion"));
+		  status.setStatusCode("M0001");
+		  crearUsuarioResponse.setStatus(status);
+		  crearUsuarioResponse.setIdUsuario( (String)exchange.getProperty("idUsuario"));
+		
+		 String jsonString = gson.toJson(crearUsuarioResponse);
 		
 		exchange.getOut().setHeader(Exchange.HTTP_RESPONSE_CODE, 400);	
 		exchange.getOut().setBody(jsonString);

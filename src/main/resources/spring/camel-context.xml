@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="        http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd        http://camel.apache.org/schema/spring       https://camel.apache.org/schema/spring/camel-spring.xsd">
     <bean
-        class="co.gov.jep.integracion.usuario.process.ResponseCrearUsuarioProcessor" id="responseCrearUsuarioProcessor"/>
+        class="co.gov.jep.integracion.contacto.process.ResponseCrearContactoProcessor" id="responseCrearContactoProcessor"/>
     <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
         <restConfiguration bindingMode="auto" component="netty-http"
             contextPath="/rs" port="7001"/>
@@ -71,8 +71,10 @@
             <setProperty id="_propertyDescripcionTransaccion" propertyName="descripcionTransaccion">
                 <xpath resultType="String">//*[local-name() = 'descripcionTransaccion']/text()</xpath>
             </setProperty>
-          
-            <process id="_process-response-crear-cliente" ref="responseCrearUsuarioProcessor"/>
+             <setProperty id="_propertyIdUsuario" propertyName="idUsuario">
+                <xpath resultType="String">//*[local-name() = 'idUsuario']/text()</xpath>
+            </setProperty>
+            <process id="_process-response-crear-usuario" ref="responseCrearUsuarioProcessor"/>
         </route>
     </camelContext>
 </beans>
