@@ -1,0 +1,23 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mod="http://ModificarUsuarioServices.servicios.mercurio.servisoft.com.co/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <mod:ModificarUsuario>
+         <!--Optional:-->
+         <arg0>
+            <CNTRSNNA>$!exchange.properties.Contrasena</CNTRSNNA>
+            <!--Optional:-->
+            <CODEMAIL>$!exchange.properties.CodEmail</CODEMAIL>
+            <contraseñaS>$!exchange.properties.Contraseñas</contraseñaS>
+            <!--Optional:-->
+            <DESCLAVE_FIRMA>$!exchange.properties.DesClaveFirma</DESCLAVE_FIRMA>
+            <FEC_CADUCIDAD_USRIO>$!exchange.properties.FecCaducidadUsuario</FEC_CADUCIDAD_USRIO>
+            <IDCARGO>$!exchange.properties.IdCargo</IDCARGO>
+            <IDDEPENDENCIA>$!exchange.properties.IdDependencia</IDDEPENDENCIA>
+            <ID_PRFIL>$!exchange.properties.IdPerfil</ID_PRFIL>
+            <ID_USRIO>$!exchange.properties.</ID_USRIO>
+            <id_UsuarioS>$!exchange.properties.IdUsuarios</id_UsuarioS>
+            <NMBRE_USRIO>$!exchange.properties.NombreUsuario</NMBRE_USRIO>
+         </arg0>
+      </mod:ModificarUsuario>
+   </soapenv:Body>
+</soapenv:Envelope>

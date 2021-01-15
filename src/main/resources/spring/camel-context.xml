@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="        http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd        http://camel.apache.org/schema/spring       https://camel.apache.org/schema/spring/camel-spring.xsd">
+    <bean
+        class="co.gov.jep.integracion.usuario.process.ResponseModificarUsuarioProcessor" id="responseModificarUsuarioProcessor"/>
+    <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
+        <restConfiguration bindingMode="auto" component="netty-http"
+            contextPath="/rs" host="localhost" port="7001"/>
+        <rest id="rest-api-modificar-usuario" path="/api">
+            <put consumes="application/json" id="/api"
+                produces="application/json" uri="/usuario/v1.0">
+                <to uri="direct:modificar-usuario-route"/>
+            </put>
+        </rest>
+        <route id="modificar -usuario-route">
+            <from id="_from-modificar-usuario-route" uri="direct:modificar-usuario-route"/>
+            <log id="_log-inicio-ruta-modificar-usuario" message=":::Inicio Ruta Modificar Usuario:::"/>
+            <log id="_log-body-modificar-usuario" message="Cuerpo entrada ---> ${body}"/>
+            <setProperty id="_propertyContrasena" propertyName="Contrasena">
+                <jsonpath id="_psonpathropertyContrasena" trim="false">$.Contrasena</jsonpath>
+            </setProperty>
+            <setProperty id=" _propertyCodEmail" propertyName="CodEmail">
+                <jsonpath id="_psonpathropertyCodEmail">$.CodEmail</jsonpath>
+            </setProperty>
+            <setProperty id="_propertyIdUsuarioS" propertyName="IdUsuarioS">
+                <jsonpath id="_psonpathropertyIdUsuarioS">$.IdUsuarioS</jsonpath>
+            </setProperty>
+            <setProperty id="_propertyContrasenas" propertyName="Contrasenas">
+                <jsonpath id="_psonpathropertyContrasenas">$.Contrasenas</jsonpath>
+            </setProperty>
+            <setProperty id="_propertyIdPerfil" propertyName="IdPerfil">
+                <jsonpath id="_psonpathropertyIdPerfil">$.IdPerfil</jsonpath>
+            </setProperty>
+            <setProperty id="_propertyNombreUsuario" propertyName="NombreUsuario">
+                <jsonpath id="_psonpathropertyNombreUsuario">$.NombreUsuario</jsonpath>
+            </setProperty>
+            <setProperty id="_propertyFecCaducidadUsuario" propertyName="FecCaducidadUsuario">
+                <jsonpath id="_psonpathropertyFecCaducidadUsuario">$.FecCaducidadUsuario</jsonpath>
+            </setProperty>
+            <setProperty id="_propertyIdDependencia" propertyName="IdDependencia">
+                <jsonpath id="_psonpathropertyIdDependencia">$.IdDependencia</jsonpath>
+            </setProperty>
+            <setProperty id="_propertyIdCargo" propertyName="IdCargo">
+                <jsonpath id="_psonpathropertyIdCargo">$.IdCargo</jsonpath>
+            </setProperty>
+            <setProperty id="_propertyDesClaveFirma" propertyName="DesClaveFirma">
+                <jsonpath id="_psonpathropertyDesClaveFirma">$.DesClaveFirma</jsonpath>
+            </setProperty>
+            <setProperty id="_propertyIdUsuario" propertyName="IdUsuario">
+                <jsonpath id="_psonpathropertyIdUsuario">IdUsuario</jsonpath>
+            </setProperty>
+            <to id="_velocitySoapModificarUsuario" uri="velocity:template/RequestSoapMODIFICAR_USUARIO.vm"/>
+            <removeHeader headerName="*" id="_removeHeaderscu"/>
+            <setHeader headerName="Content-Type" id="_setHeaderContentTypeCU">
+                <constant>text/xml;charset=UTF-8</constant>
+            </setHeader>
+            <setHeader headerName="Accept" id="_setHeaderAcceptCU">
+                <constant>text/xml;charset=UTF-8</constant>
+            </setHeader>
+            <setHeader headerName="SOAPAction" id="_setHeaderSOAPActionCU">
+                <constant>"ModificarUsuario"</constant>
+            </setHeader>
+            <setHeader headerName="CamelHttpMethod" id="_setHeaderCamelHttpMethodCU">
+                <constant>POST</constant>
+            </setHeader>
+            <to id="_toHttpAU" uri="https4://pruebasconti.jep.gov.co:443/mercurio/ModificarUsuarioServices?bridgeEndpoint=true&amp;throwExceptionOnFailure=false"/>
+            <setProperty id="_propertyDescripcionTransaccion" propertyName="descripcionTransaccion">
+                <xpath resultType="String">//*[local-name() = 'descripcionTransaccion']/text()</xpath>
+            </setProperty>
+            <process id="_process-response-modificar-usuario" ref="responseModificarUsuarioProcessor"/>
+        </route>
+    </camelContext>
+</beans>
