@@ -14,7 +14,7 @@
         <route id="consultar-contacto-route">
             <from id="_from-consultar-contacto-route" uri="direct:consultar-contacto-route"/>
             <log id="_log-inicio-ruta-consultar-contacto" message=":::Inicio Ruta Consultar Contacto:::"/>
-            <log id="_log-body-consultar-contacto" message="Cuerpo entrada ---> ${body}"/>
+            <log id="_log-body-consultar-contacto" message="Cuerpo entrada prueba webhook---> ${body}"/>
             <setProperty id="_propertyTipoDocumento" propertyName="TipoDocumento">
                 <simple>${header.TipoDocumento}</simple>
             </setProperty>
